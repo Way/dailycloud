@@ -4,5 +4,6 @@
 # IDE project files #
 #####################
 *.project
-*.builpath
+*.buildpath
 *.metadata
+*.settings
