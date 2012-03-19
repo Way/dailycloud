@@ -1,0 +1,27 @@
+/*
+ Thumbnail scroller jQuery plugin
+ scrollers styling
+ */
+.jThumbnailScroller {
+    overflow: hidden !important;
+    width: 200px;
+}
+.jThumbnailScroller .jTscrollerContainer {
+    position: absolute;
+}
+.jThumbnailScroller .jTscroller {
+    position: relative;
+    height: auto;
+    margin: 30px 0 !important;
+    padding: 0 !important;
+    left: 0;
+    top: 0;
+    display: inline-block;
+}
+.jThumbnailScroller .jTscroller li {
+    display: block;
+    overflow: hidden;
+    margin-left: 30px !important;
+    margin-right: 0 !important;
+    width: 120px;
+}

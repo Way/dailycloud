@@ -1,0 +1,80 @@
+/**
+ *     Body
+ */
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+    color: #404040;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 18px;
+}
+/**
+ *     Links
+ */
+a, a:hover {
+    color: @link-color;
+	text-decoration: none;
+	
+	&:visited, &:active {
+        color: @link-color;
+	}
+}
+/**
+ *     Text
+ */
+p {
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 18px;
+    margin-bottom: 9px;
+}
+/**
+ *     Debug
+ */
+fieldset {
+    .debug {
+    	background: #fff;
+    	border-radius: 6px;
+    	margin: 10px;
+    	padding: 20px;
+    	.box-shadow(0 2px 10px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.25));
+    	
+    	legend {
+            color: #339966;
+            font-weight: 300;
+            font-size: 35px;
+        }
+    }
+}
+/**
+ *     Elements
+ */
+textarea:focus, input:focus {
+	outline: none;
+}
+/**
+ *     App
+ */
+#app {
+    min-width: 960px;
+	width: 100%;
+}
+/**
+ *     Control
+ */
+#control {
+	background-color: #f5f5f5;
+    padding-top: @header_height;
+    height: @inputbar_height;
+}
+/**
+ *     Widgets
+ */
+#widgets {
+    
+}

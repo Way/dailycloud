@@ -1,0 +1,105 @@
+// Take care of using a ratio of 4:3
+@bookmark-width: 220px;
+@bookmark-height: 165px;
+
+#bookmarkGallery {
+    background-color: #f4f4f4;
+    min-height: 100%;
+    
+    .gallery {
+        margin: 0;
+        min-height: 100%;
+        padding: 30px 0 0;
+        text-align: center;
+        
+        .bookmarkHolder {
+            display: inline-block;
+            margin: 0 0 30px 30px;
+            position: relative;
+            
+            .bookmark {
+                background-color: #fff;
+                border: 1px solid #d1d1d1;
+                .box-shadow(0 1px 3px rgba(180, 180, 180, 0.8));
+                cursor: pointer;
+                height: @bookmark-height;
+                width: @bookmark-width;
+                overflow: hidden;
+                
+                img {
+                    border: 0;
+                    height: @bookmark-height;
+                    width: @bookmark-width;
+                }
+            }
+
+            .webshot {
+                display: block;
+            }
+            
+            .placeholder {
+                background: url("@{img-url}ws_placeholder.png") no-repeat 50% 50%;
+                display: none;
+                height: @bookmark-height;
+                width: @bookmark-width;
+            }
+            
+            .highlight {
+                background: url("@{img-url}bm_highlight.png") no-repeat top left;
+                display: block;
+                height: 100px;
+                width: 100px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 10;
+            }
+            
+            .caption {
+                height: 16px;
+                margin-top: 10px;
+                width: @bookmark-width;
+            }
+            
+            .favicon {
+                display: block;
+                float: left;
+                height: 16px;
+                width: 16px;
+                padding: 0 8px 0 2px;
+            }
+            
+            a.url {
+                color: #6a6a6a;
+                display: block;
+                float: left;
+                font-size: 13px;
+                height: 16px;
+                margin-top: 2px;
+                overflow: hidden;
+                white-space: nowrap;
+                width: @bookmark-width - 28;
+            }
+            
+        }
+
+        .ui-selecting {
+            .bookmark {
+                .box-shadow(0 1px 3px @link-color-rgba);
+            }
+        }
+        
+        .ui-selected {
+            .bookmark {
+                .box-shadow(0 1px 3px @selected-color-rgba);
+            }
+        }        
+    }
+    
+}
+
+.ui-selectable-helper {
+    background: #6a6a6a;
+    border: 1px solid #fff;
+    opacity: 0.3;
+}

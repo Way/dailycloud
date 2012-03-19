@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>JS Test</title>
+        <script src='http://code.jquery.com/jquery.min.js'></script>
+    </head>
+    <body>
+        <div id='test'>
+            Test
+        </div>
+        <script>
+            /**
+             * Boot
+             */
+            var app = window.app || {};
+            (function() {
+                var configVersion, configPath, config, test;
+                function init(version, path, _test) {
+                    document.head = document.head || document.getElementsByTagName('head')[0];
+                    configVersion = version;
+                    configPath = path;
+                    test = !!_test;
+                }
+
+
+                this.Boot = {
+                    config : init,
+                    onComplete : null
+                };
+            }).call(app);
+
+            /**
+             * Class
+             */
+            var app = window.app || {};
+            (function() {
+                var a = false, b = /\b_super\b/;
+                this.Class = function() {
+                };
+                this.Class.extend = function(c, initClass) {
+                    function e() {
+                        if(!a && this.init)
+                            return this.init.apply(this, arguments) || this;
+                    }
+
+                    var f = this.prototype;
+                    a = true;
+                    var g = new this();
+                    a = false;
+                    for(var h in c)
+                    g[h] = typeof c[h] == 'function' && typeof f[h] == 'function' && b.test(c[h]) ? function(k, j) {
+                        return function() {
+                            var l = this._super;
+                            this._super = f[k];
+                            var m = j.apply(this, arguments);
+                            this._super = l;
+                            return m;
+                        };
+                    }(h, c[h]) : c[h];
+                    e.prototype = g;
+                    e.constructor = e;
+                    e.extend = arguments.callee;
+                    e.superClass = this;
+                    e.initClass = initClass;
+                    h = [];
+                    for(var i = e; i; i = i.superClass)
+                    h.push(i);
+                    for( i = h.length; i--; )
+                    h[i].initClass && h[i].initClass(e, g);
+                    return e;
+                }
+            }).call(app);
+
+            /**
+             * App Namespace
+             */
+            app.Namespace = app.Namespace || app.Class.extend({
+                init : function(a, b, c) {
+                    var d = this, e;
+                    if(b && b.__call__) {
+                        d = function() {
+                            return d.__call__.apply(d, arguments)
+                        };
+                        d.__proto__ = app.Namespace.prototype
+                    }
+                    for(e in b || {})
+                    d.declare(e, b[e]);
+                    c || (window[a] = d);
+                    d._name = ( c ? c._name + '.' : '') + a;
+                    d._parent = c;
+                    return d
+                },
+                declare : function(a, b) {
+                    return this[a] = b
+                },
+                resolve : function(a) {
+                    var b = this;
+                    app.each(a.split('.'), function(c) {
+                        b = b[c]
+                    });
+                    return b
+                },
+                namespace : function(a, b) {
+                    return this.declare(a, new app.Namespace(a, b, this))
+                },
+                extend : function(a, b, c, d) {
+                    var e = b.extend ? b : this.resolve(b);
+                    if(!(e && e.extend))
+                        throw 'Could not find class definition: ' + b;
+                    b = this.declare(a, e.extend(c, d));
+                    b._name = this._name + '.' + a;
+                    b.prototype._className = this._name + '.' + a;
+                    return b
+                }
+            });
+
+            /**
+             * App Class
+             */
+            (function() {
+                new app.Namespace('app', {
+                    Class : app.Class,
+                    Namespace : app.Namespace,
+                    Boot : app.Boot,
+                    config : app.config,
+                    version : 'dev',
+                    rootWidget : null,
+                    components : {},
+                    expando : '__app__',
+                    register : function(b, c) {
+                        if(this.components[b])
+                            app.log('The component ' + b + ' is already registered');
+                        else
+                            this.components[b] = c
+                    },
+                    getComponent : function(b) {
+                        if(this.components[b])
+                            return this.components[b];
+                        else {
+                            app.log('The component ' + b + ' is unavailable');
+                            return null
+                        }
+                    },
+                    data : function(b, c, d) {
+                        var e = b[app.expando];
+                        if(arguments.length == 2) {
+                            if(e)
+                                d = e[c]
+                        } else if(d !== undefined)
+                            (e || (b[app.expando] = {}))[c] = d;
+                        else
+                            e &&
+                            delete e[c];
+                        return d
+                    },
+                    getData : function(b, c) {
+                        var d = undefined, e = b[app.expando];
+                        if(e)
+                            d = e[c];
+                        return d
+                    },
+                    setData : function(b, c, d) {
+                        var e = b[app.expando];
+                        e || (b[app.expando] = e = {});
+                        return e[c] = d
+                    },
+                    removeData : function(b, c) {
+                        var d = b[app.expando];
+                        d &&
+                        delete d[c]
+                    },
+                    bind : function(b, c) {
+                        var d = app.toArray(arguments);
+                        if(app.isFunction(b)) {
+                            app.assert(!b.fn, 'double bind');
+                            d.splice(0, 2);
+                            var e = function() {
+                                var g = d.concat(app.toArray(arguments));
+                                return b.apply(c, g)
+                            };
+                            e.fn = b
+                        } else {
+                            e = {};
+                            for(var f in b) {
+                                d[0] = b[f];
+                                e[f] = app.bind.apply(null, d)
+                            }
+                        }
+                        return e
+                    },
+                    each : function(b, c, d) {
+                        for(var e = b.length, f = app.copyArray(b), g = true, h = 0; h < e; ++h)
+                        if(c.call(d, f[h], h, b) === false) {
+                            g = false;
+                            break
+                        }
+                        return g
+                    },
+                    defProperty : function(b, c, d, e) {
+                        d && b.__defineGetter__(c, d);
+                        e && b.__defineSetter__(c, e)
+                    },
+                    delegateProperty : function(b, c, d, e) {
+                        e = e || d;
+                        app.defProperty(b, d, function() {
+                            return this[c][e]
+                        }, function(f) {
+                            return this[c][e] = f
+                        })
+                    },
+                    delegateProperties : function(b, c, d) {
+                        if(app.isArray(d))
+                            d = app.arrayToObject(d);
+                        for(var e in d)
+                        this.delegateProperty(b, c, e, d[e])
+                    },
+                    delegateMethod : function(b, c, d, e) {
+                        e = e || d;
+                        b[d] = function() {
+                            var f = this[c], g = f[e].apply(f, arguments);
+                            return g === f ? this : g
+                        }
+                    },
+                    delegateMethods : function(b, c, d) {
+                        if(app.isArray(d)) {
+                            d = app.arrayToObject(d);
+                        }
+                        for(var e in d) {
+                            this.delegateMethod(b, c, e, d[e]);
+                        }
+                    },
+                    isArray : function(b) {
+                        return Object.prototype.toString.call(b) === '[object Array]';
+                    },
+                    isObject : function(b) {
+                        return Object.prototype.toString.call(b) === '[object Object]';
+                    },
+                    isEmpty : function(b) {
+                        val = false;
+                        if(app.isString(b))
+                            val = b.replace(/\s/g, '').length == 0;
+                        else if(app.isArray(b))
+                            val = b.length == 0;
+                        else if(b === undefined || b === null)
+                            val = true;
+                        else if(b.constructor === Object) {
+                            val = true;
+                            for(var c in b)
+                            if(b.hasOwnProperty(c) && b[c] !== undefined) {
+                                val = false;
+                                break;
+                            }
+                        }
+                        return val;
+                    },
+                    isString : function(b) {
+                        return typeof b === 'string' || b instanceof String
+                    },
+                    isFunction : function(b) {
+                        return typeof b === 'function'
+                    },
+                    toArray : function(b) {
+                        var c = [];
+                        app.each(b, function(d) {
+                            c.push(d)
+                        });
+                        return c
+                    },
+                    copyArray : function(b) {
+                        for(var c = [], d = b.length, e = 0; e < d; ++e)
+                        c.push(b[e]);
+                        return c
+                    },
+                    arrayToObject : function(b) {
+                        var c = {};
+                        app.each(b, function(d) {
+                            c[d] = d
+                        });
+                        return c
+                    },
+                    copyAttributes : function(b, c, d) {
+                        for(var e = 0; e < d.length; ++e) {
+                            var f = b.getAttribute(d[e]);
+                            f && c.setAttribute(d[e], f)
+                        }
+                    },
+                    setAttributes : function(b, c) {
+                        for(key in c)
+                        b.setAttribute(key, c[key])
+                    },
+                    now : function() {
+                        return +new Date
+                    },
+                    assert : function(b, c) {
+                        if(!b)
+                            throw c;
+                    }
+                });
+
+                app.userSession = function(b) {
+                    var c = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+                    b || ( b = Math.floor(Math.random() * c.length));
+                    for(var d = '', e = 0; e < b; e++)
+                    d += c[Math.floor(Math.random() * c.length)];
+                    return d;
+                }(20);
+
+            })();
+
+            /**
+             * App Obj
+             */
+            app.extend('Obj', app.Class, {
+                init : function(a) {
+                    a && this.setOptions(a);
+                    this.onInit();
+                    this.__hash__ = this.__nextHash__++
+                },
+                __nextHash__ : 0,
+                onInit : function() {
+                },
+                options : {},
+                setOptions : function(a) {
+                    this.options = jQuery.extend({}, this.options, a || {});
+                    this.onOptionsChanged(this.options)
+                },
+                setOption : function(a, b) {
+                    this.options[a] = b;
+                    this.onOptionsChanged(this.options, a)
+                },
+                onOptionsChanged : function() {
+                },
+                bindMethod : function(a) {
+                    this[a] = app.bind(this[a], this)
+                },
+                __get__bindings : function() {
+                    if(!this.hasOwnProperty('_bindings')) {
+                        this._bindings = {};
+                    }
+                    return this._bindings
+                },
+                bind : function(a, b, c) {
+                    if(app.isString(a)) {
+                        if(c)
+                            b = app.bind(b, c);
+                        (this.bindings[a] || (this.bindings[a] = [])).push(b)
+                    } else {
+                        var d = a;
+                        c = b;
+                        for(a in d)
+                        this.bind(a, d[a], c)
+                    }
+                },
+                unbind : function(a, b) {
+                    if(b)
+                        app.remove(this.bindings[a], b);
+                    else
+                        delete this.bindings[a]
+                },
+                trigger : function(a, b) {
+                    var c = [app.isString(a) ? {
+                        type : a,
+                        target : this
+                    } : a].concat(b);
+                    app.each(this.bindings[a] || [], function(d) {
+                        d.apply(null, c)
+                    })
+                }
+            }, function(a, b) {
+                for(var c in b)b.hasOwnProperty(c) && !b.__lookupGetter__(c) && typeof b[c] === 'function' && function(e, f) {
+                    if(!f.bind)
+                        f.bind = function() {
+                            var i = app.toArray(arguments);
+                            i.unshift(f);
+                            return app.bind.apply(null, i)
+                        };
+                    var g = !e.indexOf('__get__') ? 'Getter' : !e.indexOf('__set__') ? 'Setter' : 'ordinary';
+                    if(g !== 'ordinary') {
+                        var h = e.substring(7);
+                        b['__define' + g + '__'](h, f);
+                        delete b[e];
+                    }
+                }(c, b[c]);
+                if(b.hasOwnProperty('options')) {
+                    b.options.__proto__ = a.superClass.prototype.options;
+                }
+                if(b.hasOwnProperty('triggers')) {
+                    for(var d in b.triggers) {
+                        b['trigger_' + d] = b['trigger_' + d] || b.triggers[d] || function(e) {
+                            return function() {
+                                var f = app.toArray(arguments);
+                                f.unshift(e);
+                                this.trigger.apply(this, f);
+                            };
+                        }(d);
+                        b['bind_' + d] = b['bind_' + d] || function(e) {
+                            return function() {
+                                var f = app.toArray(arguments);
+                                f.unshift(e);
+                                this.bind.apply(this, f);
+                            };
+                        }(d);
+                    }
+                }
+            });
+            /**
+             * App Elem
+             */
+            app.extend('Elem', app.Obj, {
+                init : function(id) {
+                    this._id = id;
+
+                    // Handle string
+                    if(app.isString(this._id)) {
+                        this._element = this.$.length ? this.$[0] : null;
+                    } else if(app.isObject(this._id)) {
+                        if(this._id.length) {
+                            // already jqueryified
+                            this._element = this._id[0];
+                        } else {
+                            // dom object
+                            this._element = this._id;
+                        }
+                        this._id = this._element.id;
+                    }
+                },
+                __get__$ : function() {
+                    return jQuery(this._id);
+                }
+            });
+
+            app.delegateProperties(app.Elem.prototype, '_element', {
+                innerHTML : 'innerHTML',
+                outerHTML : 'outerHTML',
+                style : 'style',
+                text : 'textContent',
+                innerText : 'innerText'
+            });
+
+            app.delegateMethods(app.Elem.prototype, '_element', {
+                getAttr : 'getAttribute',
+                setAttr : 'setAttribute',
+                removeAttr : 'removeAttribute'
+            });
+
+            app.delegateMethods(app.Elem.prototype, '$', ['blur', 'focus', 'val', 'find', 'attr', 'addClass', 'removeClass', 'hasClass', 'removeClass', 'width', 'height', 'outerWidth', 'remove', 'outerHeight', 'offset', 'position', 'css', 'show', 'hide', 'unbind', 'animate']);
+
+            /**
+             * App Events
+             */
+            app.Events = {
+                handles : {},
+                publish : function(a, b) {
+                    if(this.handles[a])
+                        for(var c = 0; c < this.handles[a].length; c++)
+                        this.handles[a][c].apply(b || [])
+                },
+                subscribe : function(a, b) {
+                    this.handles[a] || (this.handles[a] = []);
+                    this.handles[a].push(b);
+                    return [a, b]
+                },
+                unsubscribe : function(a) {
+                    for(var b = a[0], c = 0; c < this.handles[b].length; c++) {this.handles[b][c] == a[1] && cache[b].splice(c, 1);
+                    }
+                }
+            };
+
+        </script>
+    </body>
+</html>

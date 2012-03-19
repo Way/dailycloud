@@ -1,0 +1,84 @@
+{
+	"version": "1.0",
+	"http": [
+		"http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js",
+		"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+	],
+	"files": [
+		{
+			"libs": [
+				{
+					"jquery": [
+                        {
+					       "ui": [
+					           "jquery.ui.basewidget"
+					       ]
+                        },
+						{
+							"plugins": [
+								"jquery.ba-dotimeout",
+								"jquery.contenteditable",
+								"jquery.hotkey",
+								"jquery.hoverAttribute",
+								"jquery.json",
+								"jquery.mousewheel",
+								"jquery.scrollpane",
+								"jquery.shuffleLetters",
+								"jquery.timeago",
+								"jquery.sticky",
+								"jquery.storage",
+								"jquery.tmpl"
+							]
+						}
+					]
+				},
+				{
+					"datejs": [
+						"date-{lang}"
+					]
+				},
+				"json2"
+			]
+		},
+		{
+			"plain": "(function( window, undefined ) {"
+		},
+		{
+			"core": [
+			    "construct",
+                "debug",
+                "date",
+                "functions",
+                "tags",
+                "widget"
+		    ]
+	    },
+	    {
+            "app": [
+                "app",
+                "app.ajax",
+                "app.controller",
+                "app.dom",
+                "app.environment",
+                "app.errorhandler",
+                "app.viewport"
+			]
+		},
+		{
+			"widgets": [
+			    "bookmarkGallery",
+                "control",
+                "editor",
+				"tagbar",
+				{
+				    "inputbar": [
+				        "inputbar"
+			        ]
+				}
+			]
+		},
+		{
+			"plain": "})(window);"
+		}
+	]
+}

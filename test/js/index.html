@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>DailyCloud - Test</title>
+        <link href="../../app.less" rel="stylesheet/less"/>
+        <script src="../../app/js/libs/less.min.js"></script>
+    </head>
+    <body id="app">
+        <h1>JS Test Area</h1>
+        <script src="../../app.js"></script>
+        <script>
+            //
+            // Test area
+            //
+            function resize() {
+                console.log('resize', arguments);
+                //App.Viewport.removeResizeListener(resize);
+            }
+
+
+            App.Viewport.addResizeListener(resize);
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+{
+    "version": "1.0",
+    "http": [],
+    "files": [
+        "normalize",
+        "mixins",
+        "variables",
+        "aristo",
+        "main",
+        "header",
+        {
+            "widgets": [
+                "menu/core.css",
+                "menu/styles/gray.css",
+                "menu/styles/top.css",
+                "menu/effects/slide.css",
+                "inputbar",
+                "editor",
+                "bookmarkGallery"
+            ]
+        }, {
+            "plugins": [
+                "jquery.jscrollpane.css",
+                "jquery.sticky.css",
+                "jquery.hoverattribute.css"
+            ]
+        }
+    ]
+}

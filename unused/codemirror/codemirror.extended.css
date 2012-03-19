@@ -1,0 +1,22 @@
+.CodeMirror {
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    font-family: "Consolas", "Monaco", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    line-height: 1em;
+}
+.CodeMirror-scroll {
+    cursor: text;
+    height: 100%;
+    width: 100%;
+}
+.CodeMirror-gutter {
+    cursor: default;
+}
+.CodeMirror-lines .activeline {
+    background: #eee;
+}
+.CodeMirror-lines .searched {
+    background: yellow;
+}

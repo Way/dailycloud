@@ -1,0 +1,146 @@
+/**
+ *  InputBar
+ */
+#inputbar {
+    border: 0;
+    height: @inputbar_height;
+	margin: 0 auto;
+	position: fixed;
+    overflow: hidden;
+    width: 100%;
+    z-index: 2000;
+    
+    .wrapper {
+    	position: relative;
+	}
+	
+    .bar {
+    	background: url("@{img-url}inputbar_bg.png") repeat-x scroll 0 0 #fff;
+    	border: 0;
+    	color: #4183C4;
+    	cursor: text;
+    	position: relative;
+    	height: @inputbar_height;
+    	/*.transition(0.2s, ease);*/
+	}
+	
+    &.focus .bar {
+        /*
+        border: 1px solid #80BFFF;
+        .box-shadow(0 0 3px #5F83B9, 0 1px 2px rgba(0, 0, 0, 0.15) inset);
+        */
+    }
+    
+    .input {
+    	position: absolute;
+    	top: 4px;
+    	right: 8px;
+    	left: 50px;
+    
+        input {
+        	background: transparent;
+        	border: 0;
+        	/*color: #666;*/
+        	color: @link-color;
+        	font: 13.34px/1.4 helvetica,arial,freesans,clean,sans-serif;
+        	font-size: 20px;
+        	font-weight: normal;
+        	/*letter-spacing: -1px;*/
+        	overflow: hidden;
+        	height: 38px;
+        	width: 100%;
+        }
+        
+        .hint {
+        	color: #999;
+        	font-size: 20px;
+        	position: absolute;
+        	overflow: hidden;
+        	outline: none;
+        	-moz-user-select:none;
+        	-webkit-user-select:none;
+        	.transition(0.2s, ease);
+        }
+    }
+    
+    &.focus .hint {
+        color: #ccc;
+    }
+
+    .action {
+        background: none no-repeat scroll 50% 50% transparent;
+        display: block;
+        float: right;
+        height: 16px;
+        margin-right: 4px;
+        width: 32px;
+        position: relative;
+        top: 16px;
+        right: 32px;
+        
+        &.submit {
+            background-image: url("@{img-url}icons/submit.png");
+        }
+        
+        &.clear {
+            background-image: url("@{img-url}icons/delete.png");
+        }
+    }
+    
+    img {
+    	border: 0 none;
+    	cursor: pointer;
+    	display: none;
+    	position: absolute;
+    	left: 0;
+    	top: 0;
+    	margin: 0;
+    	padding: 11px 13px;
+    	height: 24px;
+    	width: 24px;
+	}
+	
+}
+
+/**
+ *     Inputbar autocomplete
+ */
+.ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    /*padding-right: 20px;*/
+    
+    li {
+        &.tag {
+            /*background: url("@{img-url}icons/osi-grey/tag.gif") no-repeat scroll left center transparent;
+            padding-left: 32px;*/
+        }
+    }
+    
+    a {
+        span.matched {
+            font-weight: bold;
+        }
+    
+        span.hint {
+            color: #aaa;
+            font-weight: normal;
+        }
+        &.ui-state-hover span.hint {
+            color: #fff;
+        }
+    }
+    
+    .ui-autocomplete-category {
+        border-bottom: 1px solid #dedede;
+        clear: both;
+        display: block;
+        color: #AAAAAA;
+        font-size: 12px;
+        padding: 4px 6px;
+        text-align: right;
+    }
+}
