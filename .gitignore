@@ -1,0 +1,8 @@
+# Help: http://help.github.com/ignore-files/ #
+##############################################
+
+# IDE project files #
+#####################
+*.project
+*.builpath
+*.metadata
