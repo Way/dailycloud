@@ -4,11 +4,13 @@ defined('AUTOLOAD') or exit('No direct access!');
  * DataAccessModel
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
  *
- * Represent a BOOKMARK with all values and CRUD-functions.
+ * Abstract model class which holds the table name, fields, default values and
+ * the primary key of a data model. It provides also the CRUD-functionality and
+ * some additional functions to search for or filter the models.
  *
  * @class     -   DataAccessModel
  * @file      -   DataAccessModel.php
- * @location  -   ./server/database/helper/DataAccessModel.php
+ * @location  -   ./server/database/DataAccessModel.php
  * @package   -   dailyd
  * @author    -   Alexander Vey <this.vey@gmail.com>
  *
