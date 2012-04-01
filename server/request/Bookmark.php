@@ -252,17 +252,28 @@ class BookmarkRequest extends Request implements iCRUD {
             if ($content) {
                 $dom->load($content, true);
 
+                // Get the page title
                 $title = $dom->find('title', 0);
                 $data['title'] = $title != null ? trim($title->innertext) : null;
 
+                // Get the page description (from the description meta tag)
                 $desc = $dom->find('meta[name=description]', 0);
                 $data['desc'] = $desc != null ? trim($desc->content) : null;
 
+                // Get the page keywords (from the keywords meta tag)
                 $tags = $dom->find('meta[name=keywords]', 0);
                 $data['tags'] = $tags != null ? trim($tags->content) : null;
-                if ($data['tags'] != null) {
-                    $data['tags'] = preg_split("/[,]+/", $data['tags']);
+
+                // Split and modify tags
+                if ($data['tags'] != null && !empty($data['tags'])) {
+                    // Split tags by comma and space
+                    $data['tags'] = preg_split("/[,| ]+/", $data['tags']);
+
+                    // Trim splitted tags
                     $data['tags'] = array_map('trim', $data['tags']);
+
+                    // Remove duplicated tags (using array_values to close the gaps between their keys)
+                    $data['tags'] = array_values(array_unique($data['tags']));
                 }
             }
         } catch(Exception $ex) {
