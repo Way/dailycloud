@@ -103,9 +103,9 @@ abstract class Request {
      */
     protected function error($msg, $type = L::error_type_default, $exit = false) {
         $this->json(array(
-                'error' => true,
-                'type' => $type,
-                'message' => $msg
+            'error' => true,
+            'type' => $type,
+            'message' => $msg
         ));
         if ($exit) {
             exit();

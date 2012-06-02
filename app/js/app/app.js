@@ -1,3 +1,8 @@
+/**
+ * Create global scroped Application with the defined name 'App'.
+ * All application relevant and specified functions should be added
+ * under that scope.
+ */
 (function(window, undefined) {
 
     // Private
