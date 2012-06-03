@@ -36,21 +36,21 @@ if (is_localhost()) {
  */
 if (is_localhost()) {
     config('db', array(
-            'dns' => 'mysql:host=localhost;dbname=dailycloud',
-            'host' => 'localhost',
-            'username' => 'root',
-            'password' => '',
-            'dbname' => 'dailycloud',
-            'prefix' => ''
+        'dns' => 'mysql:host=localhost;dbname=dailycloud',
+        'host' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'dbname' => 'dailycloud',
+        'prefix' => ''
     ));
 } else {
     config('db', array(
-            'dns' => 'mysql:host=localhost;dbname=dailyd_cloud',
-            'host' => 'localhost',
-            'username' => 'dailyd_admin',
-            'password' => 'justmysql2010',
-            'dbname' => 'dailyd_cloud',
-            'prefix' => ''
+        'dns' => 'mysql:host=localhost;dbname=dailyd_cloud',
+        'host' => 'localhost',
+        'username' => 'dailyd_admin',
+        'password' => 'justmysql2010',
+        'dbname' => 'dailyd_cloud',
+        'prefix' => ''
     ));
 }
 
@@ -58,20 +58,30 @@ if (is_localhost()) {
  * Application settings
  */
 config('app', array(
-        'version' => '0.1',
-        'lang' => 'en',
-        'theme' => 'default'
+    'version' => '0.1',
+    'lang' => 'en',
+    'theme' => 'default'
 ));
 
 /**
  * Services
  */
-config('service', array('webshot' => 'http://way.dyndns-ip.com/webshot/webshot.php'));
+config(
+    'service', array(
+        'webshot' => 'http://way.dyndns-ip.com/webshot/webshot.php',
+        'pubnub' => array(
+            'publish_key' => '1b9d085a-2d6e-4a9e-bc41-399e3f1a9411',
+            'subscribe_key' => 'f8e63421-918e-11df-bdc0-87f4cb286c17',
+            'ssl' => true,
+            'origin' => 'pubsub.pubnub.com'
+        )
+    )
+);
 
 /**
  * Cookie settings
  */
 config('cookie', array(
-        'path' => '/',
-        'time' => 3600 * 24 * 7
+    'path' => '/',
+    'time' => 3600 * 24 * 7
 ));
