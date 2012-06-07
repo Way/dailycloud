@@ -17,7 +17,7 @@ defined('AUTOLOAD') or exit('No direct access!');
  */
 
 /**
- * Request
+ * Request - abstract class
  */
 abstract class Request {
     // URI of this request
@@ -86,14 +86,11 @@ abstract class Request {
      * encoded json string instead of echo it.
      */
     protected function json($value, $return = false) {
-        header('Status: 200');
-        header('Cache-Control: no-cache, must-revalidate');
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Content-type: application/json');
         $json = json_encode($value);
         if ($return) {
             return $json;
         }
+        Server::jsonHeader();
         echo $json;
     }
 

@@ -47,18 +47,18 @@ if (defined('ENVIRONMENT')) {
             break;
 
         case ApplicationEnvironment::DEVELOPMENT:
-        //
-        // Load application.
-        // Report all errors.
-        //
+            //
+            // Load application.
+            // Report all errors.
+            //
             RequestHandler::run(E_ALL);
             break;
 
         case ApplicationEnvironment::PRODUCTIVE:
-        //
-        // Load application.
-        // Prevent error reporting.
-        //
+            //
+            // Load application.
+            // Prevent error reporting.
+            //
             RequestHandler::run(0);
             break;
 

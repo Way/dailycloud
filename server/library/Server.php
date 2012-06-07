@@ -37,7 +37,7 @@ class Server {
      *
      * @return String
      */
-    static function getCurrentUrl() {
+    public static function getCurrentUrl() {
         return 'http' . ((!empty($_SERVER['HTTPS'])) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     }
 
@@ -49,7 +49,7 @@ class Server {
      *
      * @return String
      */
-    static function getIp() {
+    public static function getIp() {
         if (isset($_SERVER['HTTP_CLIENT_IP'])) {
             return $_SERVER['HTTP_CLIENT_IP'];
         } else if (isset($_SERVER['HTTP_FORWARDED'])) {
@@ -73,7 +73,7 @@ class Server {
      *
      * @return string
      */
-    static function getUserAgent() {
+    public static function getUserAgent() {
         $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unknown User Agent';
         return $ua;
     }
@@ -87,7 +87,7 @@ class Server {
      * @param $use_ip (bool) set true to include the ip into the fingerprint (default false)
      * @return string
      */
-    static function getFingerprint($use_ip = false) {
+    public static function getFingerprint($use_ip = false) {
         $fingerprint = self::shiflett;
         $fingerprint .= self::getUserAgent();
         if ($use_ip) {
@@ -104,7 +104,7 @@ class Server {
      *
      * @return string
      */
-    static function getReferer() {
+    public static function getReferer() {
         return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     }
 
@@ -116,7 +116,7 @@ class Server {
      *
      * @return string
      */
-    static function post($key) {
+    public static function post($key) {
         return isset($_POST[$key]) ? $_POST[$key] : null;
     }
 
@@ -128,7 +128,7 @@ class Server {
      *
      * @return string
      */
-    static function get($key) {
+    public static function get($key) {
         return isset($_GET[$key]) ? $_GET[$key] : null;
     }
 
@@ -140,7 +140,7 @@ class Server {
      *
      * @return Boolean
      */
-    static function gzip() {
+    public static function gzip() {
         $gzip = stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip');
         $gzip ? ob_start('ob_gzhandler') : ob_start();
     }
@@ -154,11 +154,11 @@ class Server {
      *
      * @return void
      */
-    static function disableCache() {
+    public static function disableCache() {
+        header('HTTP/1.1 200 OK');
+        header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', false);
         header('Pragma: no-cache');
     }
 
@@ -173,11 +173,11 @@ class Server {
      * @param $modified int - last modified timestamp (optional)
      * @return void
      */
-    static function expireCache($expire = 86400, $modified = null) {
+    public static function expireCache($expire = 86400, $modified = null) {
         header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expire) . ' GMT');
         header('Cache-Control: maxage=' . $expire);
         header('Pragma: public');
-        if (null != $modified) {
+        if ($modified != null) {
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         }
     }
@@ -191,9 +191,35 @@ class Server {
      *
      * @return void
      */
-    static function cacheControl() {
-        header("HTTP/1.0 304 Not Modified");
-        header('Cache-Control:');
+    public static function cacheControl() {
+        header("HTTP/1.1 304 Not Modified");
+    }
+
+    /**
+     * Set header json conform and disable cache control.
+     *
+     * @since 1.1
+     * @access public
+     *
+     * @return void
+     */
+    public static function jsonHeader() {
+        self::disableCache();
+        header('Content-type: application/json');
+    }
+
+    /**
+     * Redirect request to the url.
+     *
+     * @since 1.1
+     * @access public
+     *
+     * @return void
+     */
+    public static function redirect($url) {
+        header('HTTP/1.1 301 Moved Permanently');
+        header("Location:{$url}");
+        exit();
     }
 
 }
