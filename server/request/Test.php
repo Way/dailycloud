@@ -27,45 +27,46 @@ class TestRequest extends Request {
      * PubNub test.
      */
     public function pubnub() {
-        $cfg = config('service')->pubnub;
-        
-        // Initialize PubNub
-        $pubnub = new Pubnub(
-            $cfg['publish_key'],      ## publish key
-            $cfg['subscribe_key'],    ## subscribe key
-            '',                     ## secret key
-            false                   ## ssl
+        // Get the pubnub service config.
+        $cfg =  config('service')->pubnub;
+
+        // Initialize PubNub.
+        $pubnub = new Pubnub($cfg['publish_key'], ## publish key
+        $cfg['subscribe_key'], ## subscribe key
+        '', ## secret key
+        false ## ssl
         );
-        
-        // Request messages (history) 
+
+        // Request messages (history)
         $messages = $pubnub->history(array(
-            'channel' => 'my_channel',  ## REQUIRED Channel to Send
-            'limit'   => 100             ## OPTIONAL Limit Number of Messages
+            'channel' => 'my_channel', ## REQUIRED Channel to Send
+            'limit' => 100 ## OPTIONAL Limit Number of Messages
         ));
-        var_dump($messages);             ## Prints array of messages.
-        
+        var_dump($messages);
+        ## Prints array of messages.
+
         // Receive message (subscribe) - PHP 5.2.0 (this will block!)
         // $pubnub->subscribe(array(
-            // 'channel'  => 'my_channel',        ## REQUIRED Channel to Listen
-            // 'callback' => create_function(      ## REQUIRED PHP 5.2.0 Method
-                // '$message',
-                // 'var_dump($message); return true;'
-            // )
+        // 'channel'  => 'my_channel',        ## REQUIRED Channel to Listen
+        // 'callback' => create_function(      ## REQUIRED PHP 5.2.0 Method
+        // '$message',
+        // 'var_dump($message); return true;'
+        // )
         // ));
-         
+
         // Receive message (subscribe) - PHP 5.3.0 (this will block!)
         // $pubnub->subscribe(array(
-            // 'channel'  => 'my_channel',        ## REQUIRED Channel to Listen
-            // 'callback' => function($message) {  ## REQUIRED Callback With Response
-                // var_dump($message);  ## Print Message
-                // return true;         ## Keep listening (return false to stop)
-            // }
+        // 'channel'  => 'my_channel',        ## REQUIRED Channel to Listen
+        // 'callback' => function($message) {  ## REQUIRED Callback With Response
+        // var_dump($message);  ## Print Message
+        // return true;         ## Keep listening (return false to stop)
+        // }
         // ));
-        
+
         // Send message.
         $info = $pubnub->publish(array(
             'channel' => 'my_channel', ## REQUIRED Channel to Send
-            'message' => 'Hey World!'   ## REQUIRED Message String/Array
+            'message' => 'Hey World!' ## REQUIRED Message String/Array
         ));
         var_dump($info);
     }
