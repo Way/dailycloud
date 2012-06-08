@@ -236,3 +236,8 @@ $test = new Test(__FILE__);
 		});
 	})();
 </script>
+
+<?php
+
+// Output and teardown test environment
+$test->finish();

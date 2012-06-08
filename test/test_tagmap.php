@@ -109,3 +109,6 @@ $tagA->delete();
 $tagB->delete();
 $tmA->delete();
 $tmB->delete();
+
+// Output and teardown test environment
+$test->finish();

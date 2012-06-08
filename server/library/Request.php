@@ -108,6 +108,17 @@ abstract class Request {
             exit();
         }
     }
+    
+    /**
+     * Publish a request event.
+     *
+     * @param string $channel
+     * @param array $message
+     * @return void
+     */
+    protected function publish($channel, $message) {
+        PubnubHandler::instance()->publish($channel, $message);
+    }
 
 }
 

@@ -41,6 +41,7 @@ function __autoload($class_name) {
         $dirs = array(
             'auth/*',
             'database/*',
+            'externals/*',
             'helper/*',
             'i18n/*',
             'library/*',

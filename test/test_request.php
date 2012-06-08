@@ -20,3 +20,6 @@ $test = new Test(__FILE__);
 // Handle request
 $req = new RequestHandler();
 $req->run();
+
+// Output and teardown test environment
+$test->finish();

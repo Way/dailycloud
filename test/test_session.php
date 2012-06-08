@@ -28,3 +28,6 @@ debug($_SESSION);
 
 // Destroy session, automatically deleting session cookie and all session data
 #Session::kill();
+
+// Output and teardown test environment
+$test->finish();

@@ -97,3 +97,6 @@ $model->delete();
 $newModel->delete();
 debug($model->getAll(), 'clear all');
 assert(sizeof($model->getAll()) == 0);
+
+// Output and teardown test environment
+$test->finish();

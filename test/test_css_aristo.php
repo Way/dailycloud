@@ -1104,3 +1104,8 @@ $test = new Test(__FILE__);
 
 	</body>
 </html>
+
+<?php
+
+// Output and teardown test environment
+$test->finish();

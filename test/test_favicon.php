@@ -18,3 +18,6 @@ if ($fv !== '') {
     header('Content-type: image/png');
     echo $fv;
 }
+
+// Output and teardown test environment
+$test->finish();

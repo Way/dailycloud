@@ -28,4 +28,7 @@ $data['tags'] = array_map('trim', $data['tags']);
 $data['tags'] = array_values(array_unique($data['tags']));
 
 debug($data['tags']);
-?>
+
+// Output and teardown test environment
+$test->finish();
+

@@ -48,3 +48,6 @@ $dom->clear();
 unset($dom);
 
 echo json_encode($data);
+
+// Output and teardown test environment
+$test->finish();

@@ -74,6 +74,9 @@ config(
             'subscribe_key' => is_localhost() ? 'demo' : 'f8e63421-918e-11df-bdc0-87f4cb286c17',
             'ssl' => true,
             'origin' => 'pubsub.pubnub.com'
+        ),
+        'alchemyapi' => array(
+            'api_key' => 'c208fdb98171481192a01e555b4a216d3a851e5b'
         )
     )
 );

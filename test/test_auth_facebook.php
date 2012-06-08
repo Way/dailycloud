@@ -95,3 +95,6 @@ if($user_id) {
         echo "You are not Connected.";
     }
 }
+
+// Output and teardown test environment
+$test->finish();

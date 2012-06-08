@@ -25,3 +25,6 @@ $testCookie = Cookie::get('TestCookie');
 
 debug($testCookie);
 assert($testCookie == $testValue);
+
+// Output and teardown test environment
+$test->finish();

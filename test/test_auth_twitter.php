@@ -120,3 +120,6 @@ if(!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empty
         die(sprintf('Something wrong happened on line %s in $s.', __LINE__, __FILE__));
     }
 }
+
+// Output and teardown test environment
+$test->finish();

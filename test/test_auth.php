@@ -50,3 +50,6 @@ if($uh->isLoggedin()) {
         $gears->setLayout('login')->display('login');
     }
 }
+
+// Output and teardown test environment
+$test->finish();

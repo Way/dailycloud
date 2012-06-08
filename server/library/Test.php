@@ -37,10 +37,17 @@ class Test {
     }
 
     /**
-     * Destructor
+     * Finish test.
+     *
+     * @access public
      */
-    public function __destruct() {
-        $this->finish();
+    public function finish() {
+        // Finish global diagnostic.
+        Diagnostic::instance()->output($this->_testname);
+
+        // Flush (send) the output buffer.
+        $buffer = ob_get_clean();
+        echo $buffer;
     }
 
     /**
@@ -58,7 +65,7 @@ class Test {
     private function setup() {
         // Start output buffering
         ob_start();
-
+        
         // Test data
         $this->_filename = pathinfo($this->_file, PATHINFO_BASENAME);
         $this->_testname = pathinfo($this->_file, PATHINFO_FILENAME);
@@ -67,7 +74,7 @@ class Test {
         Diagnostic::instance()->start($this->_testname);
 
         // Some cleaning?
-        if(isset($_GET['clear'])) {
+        if (isset($_GET['clear'])) {
             Session::kill();
             header('Location: ' . $this->_filename);
             exit ;
@@ -91,26 +98,12 @@ class Test {
 
         // Header
         $header = array();
-        foreach($navi as $key => $val) {
+        foreach ($navi as $key => $val) {
             $header[] = "<a href=\"$val\">$key</a>";
         }
         echo '<h1>' . $this->_testname . '</h1>';
         echo '<p>' . implode('&nbsp;&nbsp;', $header) . '</p>';
 
-    }
-
-    /**
-     * Finish test.
-     *
-     * @access private
-     */
-    private function finish() {
-        // Finish global diagnostic.
-        Diagnostic::instance()->output($this->_testname);
-
-        // Flush (send) the output buffer.
-        $buffer = ob_get_clean();
-        echo $buffer;
     }
 
 }

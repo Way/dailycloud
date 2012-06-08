@@ -33,3 +33,8 @@ $i18n->init();
 <!-- Get some greetings -->
 <p>A greeting: <?php echo L::greeting; ?></p>
 <p>Something other: <?php echo L::category_somethingother; ?></p><!-- normally sections in the ini are seperated with an underscore like here. -->
+
+<?php
+
+// Output and teardown test environment
+$test->finish();

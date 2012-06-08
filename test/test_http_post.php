@@ -64,3 +64,7 @@ var_dump(rest_helper("http://disqus.com/api/thread_by_identifier/", array(
         'forum_api_key' => $forum_api_key,
         'title' => 'HTTP POST from PHP, without cURL',
 ), 'POST'));
+
+
+// Output and teardown test environment
+$test->finish();

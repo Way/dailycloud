@@ -80,3 +80,8 @@ $loggedin = $uh->isLoggedin();
         </script>
     </body>
 </html>
+
+<?php
+
+// Output and teardown test environment
+$test->finish();
