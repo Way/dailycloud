@@ -22,6 +22,11 @@ class BookmarkRequest extends Request implements iCRUD {
     const favicon_url = 'http://g.etfv.co/';
 
     /**
+     * Pubnub instance.
+     */
+    private $_pubnub;
+
+    /**
      * Index
      *
      * @access public
@@ -84,7 +89,6 @@ class BookmarkRequest extends Request implements iCRUD {
             $result['created'] = false;
             $result['message'] = 'Bookmark is already created';
         }
-        $result['bookmark'] = $bookmark;
 
         // Has the user already saved this bookmark? -> search for BookmarkMapModel
         $req = new DataAccessRequest();
@@ -126,6 +130,12 @@ class BookmarkRequest extends Request implements iCRUD {
         }
         $bookmark->tags = $tags;
 
+        // Publish new added bookmark
+        if ($result['saved']) {
+            $this->publish('create', $bookmark);
+        }
+
+        $result['bookmark'] = $bookmark;
         $this->json($result);
     }
 
@@ -327,6 +337,32 @@ class BookmarkRequest extends Request implements iCRUD {
      */
     public function latest($limit = 10, $start = 0) {
         return $this->get(true, $limit, $start);
+    }
+
+    /**
+     * Publish a request event (bookmark create, update, delete).
+     *
+     * @access private
+     *
+     * @param string $event
+     * @param array $bookmark
+     * @return void
+     */
+    private function publish($event, $bookmark) {
+        // Initialize PubNub
+        if ($this->_pubnub == null) {
+            $cfg = (config('service')->pubnub);
+            $this->_pubnub = new Pubnub($cfg['publish_key'], $cfg['subscribe_key']);
+        }
+
+        // Publish bookmarks event
+        $this->_pubnub->publish(array(
+            'channel' => 'bookmarks',
+            'message' => array(
+                'event' => $event,
+                'bookmark' => $bookmark
+            )
+        ));
     }
 
 }

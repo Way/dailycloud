@@ -28,7 +28,7 @@ class TestRequest extends Request {
      */
     public function pubnub() {
         // Get the pubnub service config.
-        $cfg =  config('service')->pubnub;
+        $cfg = config('service')->pubnub;
 
         // Initialize PubNub.
         $pubnub = new Pubnub($cfg['publish_key'], ## publish key
