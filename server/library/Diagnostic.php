@@ -58,8 +58,8 @@ class Diagnostic extends Singleton {
 
         // Store memory at startup
         $this->_values[$this->_section] = array(
-                'memory_init' => memory_get_usage(),
-                'time_init' => microtime()
+            'memory_init' => memory_get_usage(),
+            'time_init' => microtime()
         );
     }
 
@@ -121,11 +121,13 @@ class Diagnostic extends Singleton {
             $values = $this->_values[$section];
             $in = $values['memory_init'];
             $out = memory_get_usage(true);
+            $time = round($now - $values['time_init'], 5);
+            $time = $time < 0 ? $time * -1 : $time;
             $data['in'] = $this->bytesConvert($in);
             $data['out'] = $this->bytesConvert($out);
             $data['usage'] = $this->bytesConvert($out - $in);
             $data['peak'] = $this->bytesConvert(memory_get_peak_usage());
-            $data['time'] = round($now - $values['time_init'], 5) . 's';
+            $data['time'] = $time . 's';
         }
         return $data;
     }
@@ -139,15 +141,15 @@ class Diagnostic extends Singleton {
      */
     private function bytesConvert($bytes, $precision = 2) {
         $ext = array(
-                'B',
-                'kB',
-                'MB',
-                'GB',
-                'TB',
-                'PB',
-                'EB',
-                'ZB',
-                'YB'
+            'B',
+            'kB',
+            'MB',
+            'GB',
+            'TB',
+            'PB',
+            'EB',
+            'ZB',
+            'YB'
         );
         $unitCount = 0;
         for (; $bytes > 1024 && $unitCount < sizeof($ext); $unitCount++)

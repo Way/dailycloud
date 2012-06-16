@@ -66,20 +66,16 @@ config('app', array(
 /**
  * Services
  */
-config(
-    'service', array(
-        'webshot' => 'http://way.dyndns-ip.com/webshot/webshot.php',
-        'pubnub' => array(
-            'publish_key' => is_localhost() ? 'demo' : '1b9d085a-2d6e-4a9e-bc41-399e3f1a9411',
-            'subscribe_key' => is_localhost() ? 'demo' : 'f8e63421-918e-11df-bdc0-87f4cb286c17',
-            'ssl' => true,
-            'origin' => 'pubsub.pubnub.com'
-        ),
-        'alchemyapi' => array(
-            'api_key' => 'c208fdb98171481192a01e555b4a216d3a851e5b'
-        )
-    )
-);
+config('service', array('webshot' => 'http://way.dyndns-ip.com/webshot/webshot.php'));
+
+config('service', array('pubnub' => array(
+        'publish_key' => is_localhost() ? 'demo' : '1b9d085a-2d6e-4a9e-bc41-399e3f1a9411',
+        'subscribe_key' => is_localhost() ? 'demo' : 'f8e63421-918e-11df-bdc0-87f4cb286c17',
+        'ssl' => true,
+        'origin' => 'pubsub.pubnub.com'
+    )));
+
+config('service', array('alchemyapi' => array('api_key' => 'c208fdb98171481192a01e555b4a216d3a851e5b')));
 
 /**
  * Cookie settings

@@ -73,10 +73,16 @@ class Config extends Singleton {
      */
     public function set($key, $val) {
         $new = !$this->exists($key);
-        if (is_scalar($val)) {
-            $this->registry[$key] = $val;
+        if (!$new && is_array($val)) {
+            // Extend existing config key-value pair when the value is an array.
+            $val_key = key($val);
+            $this->registry[$key]->$val_key = $val[$val_key];
         } else {
-            $this->registry[$key] = (object)$val;
+            if (is_scalar($val)) {
+                $this->registry[$key] = $val;
+            } else {
+                $this->registry[$key] = (object)$val;
+            }
         }
         return $new;
     }
